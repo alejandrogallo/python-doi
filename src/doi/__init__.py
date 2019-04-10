@@ -1,6 +1,5 @@
 import re
 import logging
-import math
 
 
 __version__ = '0.1.0'
@@ -9,7 +8,7 @@ __version__ = '0.1.0'
 logger = logging.getLogger("doi")
 
 
-def pdf_to_doi(filepath, maxlines=math.inf):
+def pdf_to_doi(filepath, maxlines=float('inf')):
     """Try to get doi from a filepath, it looks for a regex in the binary
     data and returns the first doi found, in the hopes that this doi
     is the correct one.
