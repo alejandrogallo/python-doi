@@ -1,9 +1,9 @@
 ==========
 python-doi
 ==========
-.. image:: https://img.shields.io/pypi/v/doi.svg
+.. image:: https://img.shields.io/pypi/v/python-doi.svg
    :alt: python-doi on the Python Package Index
-   :target: https://pypi.python.org/pypi/doi
+   :target: https://pypi.python.org/pypi/python-doi
 
 .. image:: https://img.shields.io/travis/alejandrogallo/python-doi.svg
    :alt: Travis Continuous Integration
