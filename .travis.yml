@@ -1,0 +1,17 @@
+# Config file for automatic testing at travis-ci.org
+
+language: python
+python:
+  - 3.6
+  - 3.5
+  - 3.4
+  - 3.3
+
+install:
+  - pip install -e .[dev]
+  - pip install coveralls
+
+script:
+  - py.test --doctest-modules --cov=doi src tests
+after_success:
+  - coveralls
