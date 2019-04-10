@@ -21,7 +21,7 @@ with open('README.rst') as readme_file:
 requirements = []
 
 dev_requirements = [
-    'coverage', 'pytest', 'pytest-cov==2.5.0', 'pytest-xdist', 'twine', 'pep8',
+    'coverage', 'pytest', 'pytest-cov==2.5.0', 'twine', 'pep8',
     'flake8', 'wheel', 'sphinx', 'sphinx-autobuild', 'sphinx_rtd_theme']
 
 version = get_version('./src/doi/__init__.py')
