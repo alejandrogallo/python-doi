@@ -43,6 +43,8 @@ def validate_doi(doi):
 
     :param doi: Doi identificator
     :type  doi: str
+    :returns: It returns the url assigned to the doi if everything went right
+    :rtype: str
 
     :raises ValueError: Whenever the doi is not valid
     """
@@ -56,6 +58,10 @@ def validate_doi(doi):
 
     try:
         result = json.loads(urllib.request.urlopen(request).read().decode())
+        if 'values' in result:
+            url = [v['data']['value']
+                    for v in result['values'] if v.get('type') == 'URL']
+            return url[0] if url else None
     except HTTPError:
         raise ValueError('HTTP 404: DOI not found')
     except URLError as e:
@@ -117,3 +123,15 @@ def find_doi_in_text(text):
         except StopIteration:
             pass
     return None
+
+
+def get_real_url_from_doi(doi):
+    url = validate_doi(doi)
+    if not url:
+        return url
+
+    m = re.match('.*linkinghub\.elsevier.*/pii/([A-Z0-9]+).*', url, re.I)
+    if m:
+        return ('https://www.sciencedirect.com/science/article/abs/pii/{pii}'
+                .format(pii=m.group(1)))
+    return url

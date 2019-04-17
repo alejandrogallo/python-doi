@@ -3,7 +3,10 @@
 import os
 from pkg_resources import parse_version
 
-from doi import validate_doi, find_doi_in_text, __version__, pdf_to_doi
+from doi import (
+    validate_doi, find_doi_in_text, __version__, pdf_to_doi,
+    get_real_url_from_doi
+)
 
 
 def test_valid_version():
@@ -12,13 +15,36 @@ def test_valid_version():
 
 
 def test_validate_doi():
-    doi = '10.1063/1.5081715'
-    validate_doi(doi)
+    data = [
+        ('10.1063/1.5081715',
+            'http://aip.scitation.org/doi/10.1063/1.5081715'),
+        ('10.1007%2FBF01451751',
+            'http://link.springer.com/10.1007/BF01451751'),
+        ('10.1103/PhysRevLett.49.57',
+            'https://link.aps.org/doi/10.1103/PhysRevLett.49.57'),
+        ('10.1080/14786442408634457',
+            'https://www.tandfonline.com/doi/full/10.1080/14786442408634457'),
+        ('10.1021/jp003647e', 'https://pubs.acs.org/doi/10.1021/jp003647e'),
+        ('10.1016/S0009-2614(97)04014-1',
+            'http://linkinghub.elsevier.com/retrieve/pii/S0009261497040141'),
+    ]
+    for doi, url in data:
+        assert(url == validate_doi(doi))
+
     for doi in ['', 'asdf']:
         try:
             validate_doi(doi)
         except ValueError as e:
             assert(str(e) == 'HTTP 404: DOI not found')
+
+def test_get_real_url_from_doi():
+    data = [
+        ('10.1016/S0009-2614(97)04014-1',
+         'https://www.sciencedirect.com/science/'
+         'article/abs/pii/S0009261497040141'),
+    ]
+    for doi, url in data:
+        assert(url == get_real_url_from_doi(doi))
 
 
 def test_find_doi_in_line():
